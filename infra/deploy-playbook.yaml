@@ -80,4 +80,4 @@
     - name: Run migration inside container
       community.docker.docker_container_exec:
         container: superlists
-        command: ./manage.py migrate
+        command: python3 ./manage.py migrate
