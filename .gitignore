@@ -6,3 +6,5 @@ __pycache__
 src/db.sqlite3
 src/static
 .vscode
+automatizar-login-com-oauth-google.png
+client_secret_google_cloud.json
