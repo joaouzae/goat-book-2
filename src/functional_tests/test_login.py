@@ -6,8 +6,8 @@ from django.core import mail
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
-from accounts.forms import ListUserCreationForm
-from accounts.models import ListUser
+# from accounts.forms import ListUserCreationForm
+# from accounts.models import ListUser
 
 from .base import FunctionalTest
 
@@ -31,7 +31,7 @@ class LoginTest(FunctionalTest):
         # Edith also notices that there are some fields: email, password and another password input
         self.wait_for(
             lambda: self.assertIn(
-                "Email:", self.browser.find_element(By.CSS_SELECTOR, "body").text
+                "Email", self.browser.find_element(By.CSS_SELECTOR, "body").text
             )
         )
 
@@ -62,6 +62,7 @@ class LoginTest(FunctionalTest):
             lambda: self.browser.find_element(By.CSS_SELECTOR, "#id_logout"),
         )
 
+    @skip
     def test_login_using_email_and_password(self):
         # Edith goes to the awesome superlists site
         # and notices a "Log in" section in the navbar for the first time

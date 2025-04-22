@@ -1,0 +1,11 @@
+<h2>Sign up</h2>
+<form method="POST" action="signup">
+    {% csrf_token %}
+    <label for="email">Email:</label>
+    <input name="email">
+    <label for="password1">Password:</label>
+    <input name="password1">
+    <label for="password2">Confirm password:</label>
+    <input name="password2">
+    <button id="id_signup" type="submit">Sign Up</button>
+</form>

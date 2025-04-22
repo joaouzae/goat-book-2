@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 
   <head>
     <title>To-Do lists</title>
@@ -10,7 +10,34 @@
 
   <body>
     <div class="container">
-
+      <div class="navbar">
+        {% if messages %}
+        <div class="row">
+          <div class="col-md-8">
+            {% for message in messages %}
+              {% if message.level_tag == 'success' %}
+                <div class="alert alert-success">{{ message }}</div>
+              {% else %}
+                <div class="alert alert-warning">{{ message }}</div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+        
+        {% if user.is_authenticated %}
+          <p>Logged in as {{ user.email }}</p>
+        {% else %}
+          <form method="GET" action="/accounts/login">
+            {% csrf_token %}
+            <button id="id_login" type="submit">Log in</button>
+          </form>
+        {% endif %}
+        <form method="GET" action="/accounts/signup">
+          {% csrf_token %}
+          <button id="id_signup" type="submit">Sign up</button>
+        </form>
+      </div>
       <div class="row justify-content-center p-5 bg-body-tertiary rounded-3">
         <div class="col-lg-6 text-center">
           <h1 class="display-1 mb-4">{% block header_text %}{% endblock %}</h1>
