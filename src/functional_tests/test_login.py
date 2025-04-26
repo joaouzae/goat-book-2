@@ -6,6 +6,8 @@ from django.core import mail
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
+from accounts.models import User
+
 # from accounts.forms import ListUserCreationForm
 # from accounts.models import ListUser
 
@@ -62,12 +64,11 @@ class LoginTest(FunctionalTest):
             lambda: self.browser.find_element(By.CSS_SELECTOR, "#id_logout"),
         )
 
-    @skip
     def test_login_using_email_and_password(self):
         # Edith goes to the awesome superlists site
         # and notices a "Log in" section in the navbar for the first time
         # It's telling her to enter her email address, so she does
-        user: ListUser = ListUser.objects.create(email=USERNAME)
+        user: User = User.objects.create(email=USERNAME)
         user.set_password("123")
         user.save()
 
