@@ -82,12 +82,16 @@ class LoginTest(FunctionalTest):
             )
         )
 
-        self.browser.find_element(By.CSS_SELECTOR, "input[name=username]").send_keys(
-            USERNAME, Keys.ENTER
+        self.browser.find_element(By.CSS_SELECTOR, "input[name=email]").send_keys(
+            USERNAME
         )
 
         self.browser.find_element(By.CSS_SELECTOR, "input[name=password]").send_keys(
-            PASSWORD, Keys.ENTER
+            PASSWORD
+        )
+
+        self.browser.find_element(By.CSS_SELECTOR, "input[name=password]").send_keys(
+            Keys.ENTER
         )
 
         self.wait_for(
