@@ -1,7 +1,7 @@
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate
-from django.contrib.auth import login as auth_login
+from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib import messages
 from accounts.models import User
 
@@ -16,6 +16,11 @@ def login(request: HttpRequest):
             messages.error(request, "Invalid email or password")
         return redirect("/")
     return render(request, "login.html")
+
+
+def logout(request: HttpRequest):
+    auth_logout(request)
+    return redirect("/")
 
 
 def signup(request: HttpRequest):

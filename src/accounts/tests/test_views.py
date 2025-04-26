@@ -108,5 +108,17 @@ class LoginViewTest(TestCase):
         self.assertEqual(anon_user.is_authenticated, False)
 
 
-# class LogoutViewTest(TestCase):
-#     def
+class LogoutViewTest(TestCase):
+    def test_logout(self):
+        self.client.post(
+            "/accounts/signup",
+            data={"email": USERNAME, "password1": PASSWORD, "password2": PASSWORD},
+        )
+        user = auth.get_user(self.client)
+        self.assertEqual(user.is_authenticated, True)
+        self.assertEqual(user.email, "edith@example.com")
+
+        self.client.post("/accounts/logout")
+
+        anon_user = auth.get_user(self.client)
+        self.assertEqual(anon_user.is_authenticated, False)

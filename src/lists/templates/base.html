@@ -27,6 +27,10 @@
         
         {% if user.is_authenticated %}
           <p>Logged in as {{ user.email }}</p>
+          <form method="POST" action="/accounts/logout">
+            {% csrf_token %}
+            <button id="id_logout" type="submit">Log out</button>
+          </form>
         {% else %}
           <form method="GET" action="/accounts/login">
             {% csrf_token %}
