@@ -37,15 +37,14 @@ class LoginTest(FunctionalTest):
             )
         )
 
-        # # She decides to enter her email and a password
+        # She decides to enter her email and a password
         email = self.browser.find_element(By.CSS_SELECTOR, "input[name=email]")
         email.send_keys(USERNAME)
-        # time.sleep(5)
+
         password1 = self.wait_for(
             lambda: self.browser.find_element(By.CSS_SELECTOR, "input[name=password1]")
         )
         password1.send_keys(PASSWORD)
-        # time.sleep(5)
 
         password2 = self.browser.find_element(By.CSS_SELECTOR, "input[name=password2]")
 
