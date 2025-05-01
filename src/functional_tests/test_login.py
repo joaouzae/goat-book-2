@@ -53,15 +53,7 @@ class LoginTest(FunctionalTest):
         # Then clicks on the "Sign Up" button
         self.browser.find_element(By.ID, "id_signup").click()
         # She is back on the home page and notices it says "Logged in as edith@example.com"
-        self.wait_for(
-            lambda: self.assertIn(
-                "Logged in as " + USERNAME,
-                self.browser.find_element(By.CSS_SELECTOR, "body").text,
-            )
-        )
-        self.wait_for(
-            lambda: self.browser.find_element(By.CSS_SELECTOR, "#id_logout"),
-        )
+        self.wait_to_be_logged_in(email=USERNAME)
 
     def test_login_using_email_and_password(self):
         # Edith goes to the awesome superlists site
@@ -93,15 +85,8 @@ class LoginTest(FunctionalTest):
             Keys.ENTER
         )
 
-        self.wait_for(
-            lambda: self.assertIn(
-                "Logged in as " + USERNAME,
-                self.browser.find_element(By.CSS_SELECTOR, "body").text,
-            )
-        )
-        self.wait_for(
-            lambda: self.browser.find_element(By.CSS_SELECTOR, "#id_logout"),
-        )
+        self.wait_to_be_logged_in(email=USERNAME)
+
         return
         # # She checks her email and finds a message
         # email = mail.outbox.pop()
