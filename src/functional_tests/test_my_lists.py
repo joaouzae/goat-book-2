@@ -43,11 +43,6 @@ class MyListsTest(FunctionalTest):
             )
         )
 
-        # user = auth.get_user(self.client)
-        # self.assertEqual(user.email, "edith@example.com")
-        # self.assertEqual(user.is_authenticated, True)
-        # print("user.is_authenticated: ", user.is_authenticated)
-
     def test_logged_in_users_lists_are_saved_as_my_lists(self):
         email = "edith@example.com"
         self.browser.get(self.live_server_url)
