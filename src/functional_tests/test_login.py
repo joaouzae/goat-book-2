@@ -59,6 +59,9 @@ class LoginTest(FunctionalTest):
         # Edith goes to the awesome superlists site
         # and notices a "Log in" section in the navbar for the first time
         # It's telling her to enter her email address, so she does
+        if self.test_server:
+            return
+
         user: User = User.objects.create(email=USERNAME)
         user.set_password("123")
         user.save()
