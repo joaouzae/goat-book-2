@@ -141,6 +141,14 @@ class ListViewTest(TestCase):
 
 
 class MyListsTest(TestCase):
+    def _create_list_with_owner(self, email):
+        user = User.objects.create(email=email)
+        user.save()
+        lista = List.objects.create()
+        lista.owner = user
+        lista.save()
+        return lista, user
+
     def test_my_lists_url_renders_my_lists_template(self):
         correct_user = User.objects.create(email="a@b.com")
         response = self.client.get("/lists/users/a@b.com/")
@@ -160,35 +168,24 @@ class MyListsTest(TestCase):
         self.assertEqual(new_list.owner, user)
 
     def test_user_cannot_access_other_users_lists(self):
-        user = User.objects.create(email="nao_dono@e.com")
+        user = User.objects.create(email="nao@dono.com")
         self.client.force_login(user)
 
-        dono_da_lista = User.objects.create(email="a@b.com")
-        dono_da_lista.save()
-
-        list_1 = List.objects.create()
-        list_1.owner = dono_da_lista
-        list_1.save()
+        self._create_list_with_owner("a@b.com")
         response = self.client.get("/lists/1/")
 
         self.assertTemplateUsed(response, "not_allowed.html")
 
     def test_user_accesses_their_own_lists_if_authenticated(self):
-        user = User.objects.create(email="a@b.com")
+        _, user = self._create_list_with_owner("a@b.com")
         self.client.force_login(user)
-        list_1 = List.objects.create()
-        list_1.owner = user
-        list_1.save()
+
         response = self.client.get("/lists/1/")
 
         self.assertTemplateUsed(response, "list.html")
 
     def test_user_cannot_access_their_own_lists_if_not_authenticated(self):
-        user = User.objects.create(email="a@b.com")
-        user.save()
-        list_1 = List.objects.create()
-        list_1.owner = user
-        list_1.save()
+        self._create_list_with_owner("a@b.com")
         response = self.client.get("/lists/1/")
 
         self.assertTemplateUsed(response, "not_allowed.html")
