@@ -47,19 +47,26 @@ class NewListTest(TestCase):
 
 
 class ListViewTest(TestCase):
+    def setUp(self):
+        user = User.objects.create(email="a@b.com")
+        user.save()
+        self.client.force_login(user)
+        self.list_1 = List.objects.create()
+        self.list_1.owner = user
+        self.list_1.save()
+
     def test_uses_list_template(self):
-        mylist = List.objects.create()
-        response = self.client.get(f"/lists/{mylist.id}/")
+        response = self.client.get(f"/lists/{self.list_1.id}/")
         self.assertTemplateUsed(response, "list.html")
 
     def test_displays_item_form(self):
-        mylist = List.objects.create()
+        mylist = self.list_1
         response = self.client.get(f"/lists/{mylist.id}/")
         self.assertIsInstance(response.context["form"], ExistingListItemForm)
         self.assertContains(response, 'name="text"')
 
     def test_displays_only_items_for_that_list(self):
-        correct_list = List.objects.create()
+        correct_list = self.list_1
         Item.objects.create(text="itemey 1", list=correct_list)
         Item.objects.create(text="itemey 2", list=correct_list)
         other_list = List.objects.create()
@@ -73,7 +80,7 @@ class ListViewTest(TestCase):
 
     def test_passes_correct_list_to_template(self):
         other_list = List.objects.create()
-        correct_list = List.objects.create()
+        correct_list = self.list_1
         response = self.client.get(f"/lists/{correct_list.id}/")
         self.assertEqual(response.context["list"], correct_list)
 
