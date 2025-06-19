@@ -158,3 +158,37 @@ class MyListsTest(TestCase):
         self.client.post("/lists/new", data={"text": "new item"})
         new_list = List.objects.get()
         self.assertEqual(new_list.owner, user)
+
+    def test_user_cannot_access_other_users_lists(self):
+        user = User.objects.create(email="nao_dono@e.com")
+        self.client.force_login(user)
+
+        dono_da_lista = User.objects.create(email="a@b.com")
+        dono_da_lista.save()
+
+        list_1 = List.objects.create()
+        list_1.owner = dono_da_lista
+        list_1.save()
+        response = self.client.get("/lists/1/")
+
+        self.assertTemplateUsed(response, "not_allowed.html")
+
+    def test_user_accesses_their_own_lists_if_authenticated(self):
+        user = User.objects.create(email="a@b.com")
+        self.client.force_login(user)
+        list_1 = List.objects.create()
+        list_1.owner = user
+        list_1.save()
+        response = self.client.get("/lists/1/")
+
+        self.assertTemplateUsed(response, "list.html")
+
+    def test_user_cannot_access_their_own_lists_if_not_authenticated(self):
+        user = User.objects.create(email="a@b.com")
+        user.save()
+        list_1 = List.objects.create()
+        list_1.owner = user
+        list_1.save()
+        response = self.client.get("/lists/1/")
+
+        self.assertTemplateUsed(response, "not_allowed.html")
