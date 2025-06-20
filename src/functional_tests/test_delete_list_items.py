@@ -36,7 +36,7 @@ class TestDeleteItems(FunctionalTest):
         # Edith goes back to My Lists page and see the list (whose title was
         # the name of its first item, which is gone) is gone
         self.browser.find_element(By.LINK_TEXT, "My lists").click()
-        self.wait_for(lambda: self.browser.find_element(By.TAG_NAME, "ul"))
-        ul = self.browser.find_element(By.TAG_NAME, "ul")
+        self.wait_for(lambda: self.browser.find_element(By.ID, "lists-ul"))
+        ul = self.browser.find_element(By.ID, "lists-ul")
 
         self.assertEqual(ul.find_elements(By.CSS_SELECTOR, "*"), [])

@@ -4,7 +4,7 @@
 
 {% block content %}
   <h2>{{ owner.email }}'s lists</h2>  
-  <ul>
+  <ul id="lists-ul">
     {% for list in owner.lists.all %}  
       <li><a href="{{ list.get_absolute_url }}">{{ list.name }}</a></li>  
     {% endfor %}
