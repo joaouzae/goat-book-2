@@ -41,13 +41,16 @@ def view_list(request, list_id):
     return render(request, "list.html", {"list": our_list, "form": form})
 
 
-def delete_item(request, list_id, item_id):
-    Item.objects.get(id=item_id).delete()
-    list: List = List.objects.get(id=list_id)
-    if not list.item_set.all():
-        list.delete()
-        return redirect(f"/lists/users/{request.user.email}/")
-    return redirect(list)
+def delete_item(request, item_id):
+    item = Item.objects.get(id=item_id)
+    list = item.list
+    if request.user.is_authenticated and list.owner == request.user:
+        item.delete()
+        if not list.item_set.all():
+            list.delete()
+            return redirect(f"/lists/users/{request.user.email}/")
+        return redirect(list)
+    return redirect("/")
 
 
 def my_lists(request, email):
