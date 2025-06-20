@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import get_user_model
 
 from lists.forms import ExistingListItemForm, ItemForm
-from lists.models import List
+from lists.models import Item, List
 
 
 User = get_user_model()
@@ -39,6 +39,12 @@ def view_list(request, list_id):
         else:
             return render(request, "not_allowed.html")
     return render(request, "list.html", {"list": our_list, "form": form})
+
+
+def delete_item(request, list_id, item_id):
+    Item.objects.get(id=item_id).delete()
+    list = List.objects.get(id=list_id)
+    return redirect(list)
 
 
 def my_lists(request, email):

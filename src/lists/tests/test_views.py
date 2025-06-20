@@ -147,6 +147,25 @@ class ListViewTest(TestCase):
         self.assertEqual(Item.objects.all().count(), 1)
 
 
+class ListDeleteItemTest(TestCase):
+    def setUp(self):
+        user = User.objects.create(email="a@b.com")
+        user.save()
+        self.client.force_login(user)
+        self.list_1 = List.objects.create()
+        self.list_1.owner = user
+        self.list_1.save()
+
+    def test_delete_item_from_list(self):
+        # criar um item
+        Item.objects.create(list=self.list_1, text="to be deleted")
+        response = self.client.get(f"/lists/{self.list_1.id}/items/1/delete")
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, f"/lists/{self.list_1.id}/")
+        self.assertEquals(Item.objects.count(), 0)
+
+
 class MyListsTest(TestCase):
     def _create_list_with_owner(self, email):
         user = User.objects.create(email=email)

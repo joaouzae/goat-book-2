@@ -13,7 +13,12 @@
   <div class="col-lg-6">
   <table class="table" id="id_list_table">
     {% for item in list.item_set.all %}
-      <tr><td>{{ forloop.counter }}: {{ item.text }}</td></tr>
+      <tr>
+        <td>{{ forloop.counter }}: {{ item.text }}</td>
+      <form action="{% url 'delete_item' list.id item.id %}">
+        <td><button type="submit" class="btn-close"></button></td>
+      </form>
+    </tr>
     {% endfor %}
   </table>
   </div>

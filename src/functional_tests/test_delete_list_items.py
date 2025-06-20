@@ -26,9 +26,9 @@ class TestDeleteItems(FunctionalTest):
 
         # Now she notices the item is gone from the list and the list is empty
         trs: list[WebElement] = list_page.get_table_rows()
-        self.assertIsNone(trs)
+        self.assertEqual(trs, [])
 
         # She refreshes the page and the item is still gone
         self.browser.get(self.browser.current_url)
         trs: list[WebElement] = list_page.get_table_rows()
-        self.assertIsNone(trs)
+        self.assertEqual(trs, [])
