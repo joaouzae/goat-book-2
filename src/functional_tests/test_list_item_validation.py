@@ -5,6 +5,10 @@ from .base import FunctionalTest
 
 
 class ItemValidationTest(FunctionalTest):
+    def setUp(self):
+        super().setUp()
+        self.create_pre_authenticated_session("edith@example.com")
+
     def get_error_element(self):
         return self.browser.find_element(By.CSS_SELECTOR, ".invalid-feedback")
 

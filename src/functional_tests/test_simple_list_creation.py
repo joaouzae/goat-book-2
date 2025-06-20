@@ -4,6 +4,10 @@ from selenium.webdriver.common.keys import Keys
 
 
 class NewVisitorTest(FunctionalTest):
+    def setUp(self):
+        super().setUp()
+        self.create_pre_authenticated_session("edith@example.com")
+
     def test_can_start_a_todo_list(self):
         # Edith has heard about a cool new online to-do app.
         # She goes to check out its homepage
@@ -60,6 +64,7 @@ class NewVisitorTest(FunctionalTest):
 
         # Francis visits the home page.  There is no sign of Edith's
         # list
+        self.create_pre_authenticated_session("francis@example.com")
         self.browser.get(self.live_server_url)
         page_text = self.browser.find_element(By.TAG_NAME, "body").text
         self.assertNotIn("Buy peacock feathers", page_text)

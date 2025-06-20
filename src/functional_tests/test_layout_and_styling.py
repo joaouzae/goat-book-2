@@ -4,6 +4,10 @@ from .base import FunctionalTest
 
 
 class LayoutAndStylingTest(FunctionalTest):
+    def setUp(self):
+        super().setUp()
+        self.create_pre_authenticated_session("edith@example.com")
+
     def test_layout_and_styling(self):
         # Edith goes to the home page,
         self.browser.get(self.live_server_url)
