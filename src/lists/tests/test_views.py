@@ -159,11 +159,22 @@ class ListDeleteItemTest(TestCase):
     def test_delete_item_from_list(self):
         # criar um item
         Item.objects.create(list=self.list_1, text="to be deleted")
+        Item.objects.create(list=self.list_1, text="NOT to be deleted")
         response = self.client.get(f"/lists/{self.list_1.id}/items/1/delete")
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f"/lists/{self.list_1.id}/")
+        self.assertEquals(Item.objects.count(), 1)
+
+    def test_delete_last_item_from_list_and_the_list_itself(self):
+        "If the list is empty, it is deleted as well."
+        Item.objects.create(list=self.list_1, text="to be deleted")
+        response = self.client.get(f"/lists/{self.list_1.id}/items/1/delete")
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, f"/lists/users/a@b.com/")
         self.assertEquals(Item.objects.count(), 0)
+        self.assertEquals(List.objects.count(), 0)
 
 
 class MyListsTest(TestCase):

@@ -43,7 +43,10 @@ def view_list(request, list_id):
 
 def delete_item(request, list_id, item_id):
     Item.objects.get(id=item_id).delete()
-    list = List.objects.get(id=list_id)
+    list: List = List.objects.get(id=list_id)
+    if not list.item_set.all():
+        list.delete()
+        return redirect(f"/lists/users/{request.user.email}/")
     return redirect(list)
 
 
