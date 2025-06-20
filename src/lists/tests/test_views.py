@@ -176,6 +176,16 @@ class ListDeleteItemTest(TestCase):
         self.assertEquals(Item.objects.count(), 0)
         self.assertEquals(List.objects.count(), 0)
 
+    def test_delete_someone_elses_item(self):
+        Item.objects.create(list=self.list_1, text="to be deleted")
+        outro_user = User.objects.create(email="outro@usuario.com")
+        outro_user.save()
+        self.client.force_login(outro_user)
+
+        response = self.client.get(f"/lists/items/1/delete")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "not_allowed.html")
+
 
 class MyListsTest(TestCase):
     def _create_list_with_owner(self, email):

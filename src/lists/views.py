@@ -50,7 +50,7 @@ def delete_item(request, item_id):
             list.delete()
             return redirect(f"/lists/users/{request.user.email}/")
         return redirect(list)
-    return redirect("/")
+    return render(request, "not_allowed.html")
 
 
 def my_lists(request, email):
