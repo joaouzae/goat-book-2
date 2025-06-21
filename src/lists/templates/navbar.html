@@ -19,11 +19,11 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/">Superlists</a>
+            <a class="nav-link{% if request.path|length <= 1 %} active{% endif %}" aria-current="page" href="/">Superlists</a>
         </li>
         {% if user.is_authenticated %}
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'my_lists' user.email %}">My lists</a>
+            <a class="nav-link{% if request.path|slice:13 == '/lists/users/' %} active{% endif %}" href="{% url 'my_lists' user.email %}">My lists</a>
         </li>
         {% endif %}
         </ul>
