@@ -34,7 +34,11 @@ def view_list(request, list_id):
             form.save()
             return redirect(our_list)
     else:
-        if request.user.is_authenticated and our_list.owner == request.user:
+        if (
+            request.user.is_authenticated
+            and request.user == our_list.owner
+            or request.user in our_list.shared_with.all()
+        ):
             form = ExistingListItemForm(for_list=our_list)
         else:
             return render(request, "not_allowed.html")
