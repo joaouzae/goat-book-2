@@ -8,6 +8,7 @@ urlpatterns = [
         views.delete_item,
         name="delete_item",
     ),
+    path("<int:list_id>/share", views.share_list, name="share_list"),
     path("<int:list_id>/", views.view_list, name="view_list"),
     path("users/<str:email>/", views.my_lists, name="my_lists"),
 ]

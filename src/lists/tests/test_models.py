@@ -79,3 +79,17 @@ class ListModelTest(TestCase):
         Item.objects.create(list=list_, text="first item")
         Item.objects.create(list=list_, text="second item")
         self.assertEqual(list_.name, "first item")
+
+    def test_add_user_to_shared_with_attribute(self):
+        user = User.objects.create(email="onesiphorus@example.com")
+        list = List.objects.create()
+        list.shared_with.add(user.email)
+
+        self.assertIn(user, list.shared_with.all())
+
+    def test_reverse_smth_smth(self):
+        user = User.objects.create(email="onesiphorus@example.com")
+        list = List.objects.create()
+        list.shared_with.add(user.email)
+
+        self.assertIn(list, user.shared_lists.all())

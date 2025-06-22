@@ -8,7 +8,25 @@
   {% url 'view_list' list.id as form_action %}
   {% include "form.html" with form=form form_action=form_action %}
 {% endblock %}
-{% block content %}  
+{% block content %}
+<h5>List owner</h5>
+<div id="id_list_owner">
+    <p>{{ list.owner }}</p>
+</div>
+{% if list.shared_with.all|length > 0 %}
+<h5>Shared with</h5>
+{% endif %}
+<div class="list-sharee">
+    {% for sharee in list.shared_with.all %}
+    <p>{{ sharee.email }}</p>
+    {% endfor %}
+</div>
+<h5>Share this list:</h5>
+<form method="POST" action="{% url 'share_list' list.id %}">
+    {% csrf_token %}
+    <input name="sharee_email" placeholder="your-friend@example.com">
+</form>
+    
 <div class="row justify-content-center">
   <div class="col-lg-6">
   <table class="table" id="id_list_table">

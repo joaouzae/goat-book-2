@@ -31,7 +31,7 @@ class ListPage:
     def get_share_box(self):
         return self.test.browser.find_element(
             By.CSS_SELECTOR,
-            'input[name="sharee"]',
+            'input[name="sharee_email"]',
         )
 
     def get_shared_with_list(self):

@@ -236,3 +236,26 @@ class MyListsTest(TestCase):
         response = self.client.get("/lists/1/")
 
         self.assertTemplateUsed(response, "not_allowed.html")
+
+
+class ShareListTest(TestCase):
+    def test_post_redirects_to_lists_page(self):
+        user = User.objects.create(email="onesiphorus@example.com")
+        list = List.objects.create()
+        response = self.client.post(
+            f"/lists/{list.id}/share", data={"sharee_email": user.email}
+        )
+
+        self.assertRedirects(response, f"/lists/{list.id}/")
+
+    def test_shares_list_with_another_user(self):
+        user = User.objects.create()
+        self.client.force_login(user)
+        mylist = List.objects.create()
+        mylist.owner = user
+        self.client.post(
+            f"/lists/{mylist.id}/share",
+            data={"sharee_email": user.email},
+        )
+
+        self.assertIn(user, mylist.shared_with.all())
