@@ -6,10 +6,11 @@
     class="form-control
            form-control-lg
            {% if form.errors %}is-invalid{% endif %}"
-    placeholder="Enter a to-do item"
+    placeholder="{% if user.is_authenticated %}Enter a to-do item{% else %}Log in to start a new list{% endif %}"
     value="{{ form.text.value }}"
     aria-describedby="id_text_feedback"
     required
+    {% if not user.is_authenticated %}disabled{% endif %}
   />
   {% if form.errors %}
     <div id="id_text_feedback" class="invalid-feedback">

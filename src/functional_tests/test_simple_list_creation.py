@@ -3,7 +3,28 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
 
-class NewVisitorTest(FunctionalTest):
+class UnauthenticatedVisitorTest(FunctionalTest):
+    def setUp(self):
+        super().setUp()
+
+    def test_input_box_is_disabled_because_user_is_not_logged_in(self):
+        # Edith goes to the site
+        self.browser.get(self.live_server_url)
+
+        # She notices the page title and header mention to-do lists
+        self.assertIn("To-Do", self.browser.title)
+        header_text = self.browser.find_element(By.TAG_NAME, "h1").text
+        self.assertIn("To-Do", header_text)
+
+        # She notices a disabled input box telling her she needs to log in first
+        inputbox = self.get_item_input_box()
+        self.assertIsNotNone(inputbox.get_attribute("disabled"))
+        self.assertEqual(
+            inputbox.get_attribute("placeholder"), "Log in to start a new list"
+        )
+
+
+class AuthenticatedUserTest(FunctionalTest):
     def setUp(self):
         super().setUp()
         self.create_pre_authenticated_session("edith@example.com")
