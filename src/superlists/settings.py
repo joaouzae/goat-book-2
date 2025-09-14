@@ -19,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 DEBUG = True
 SECRET_KEY = "insecure-key-for-dev"
-ALLOWED_HOSTS = ["joaouzae.pythonanywhere.com"]
+ALLOWED_HOSTS = ["joaouzae.pythonanywhere.com", "localhost"]
 
 
 # Application definition
